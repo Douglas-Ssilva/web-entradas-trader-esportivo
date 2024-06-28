@@ -1,0 +1,32 @@
+<div class="container spaceHeader" style="max-width: 600px;">
+  <h2 class="subtitulo">Login</h2>
+
+  <form #formLogin="ngForm" autocomplete="off" >
+    <div class="col-12 p-fluid">
+      <div class="grid">
+
+            <div class="col-2 p-fluid">
+              <label class="label">Email:</label>
+            </div>
+            <div class="col-10 p-fluid">
+              <input pInputText type="email" name="email" #email="ngModel" required email ngModel>
+              <app-message [control]="email" error="required" text="Informe um email"></app-message>
+              <app-message [control]="email" error="email" text="Informe um email válido"></app-message>
+            </div>
+
+            <div class="col-2 p-fluid">
+              <label class="label">Senha</label>
+            </div>
+            <div class="col-10 p-fluid">
+              <input pInputText type="password" name="senha" #senha="ngModel" required ngModel>
+              <app-message [control]="senha" error="required" text="Informe uma senha"></app-message>
+          </div>
+
+          <div class="col-10 p-fluid">
+            <button pButton type="submit" (click)="logar(email.value, senha.value);"   label="Entrar" ></button>
+          </div>
+
+        </div>
+      </div>
+  </form>
+</div>

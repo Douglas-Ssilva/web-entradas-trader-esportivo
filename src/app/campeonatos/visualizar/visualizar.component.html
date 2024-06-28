@@ -1,0 +1,50 @@
+<div class="container spaceHeader">
+  <h2 class="subtitulo">Visualizar Campeonato</h2>
+
+  <div class="col-12 p-fluid">
+    <div class="grid">
+      <div class="col-2 p-fluid">
+        <label class="label">Nome:</label>
+      </div>
+      <div class="col-10 p-fluid">
+        <input type="text" pInputText name="nome" [(ngModel)]="campeonato.nome" [disabled]="true">
+      </div>
+
+      <div class="col-2 p-fluid">
+        <label class="label">Total times:</label>
+      </div>
+      <div class="col-10 p-fluid">
+        <input type="number" pInputText name="totalTimes" [(ngModel)]="campeonato.totalTimes" [disabled]="true">
+      </div>
+
+      <div class="col-2 p-fluid">
+        <label class="label">Continente:</label>
+      </div>
+      <div class="col-10 p-fluid">
+        <p-dropdown #continente="ngModel" name="campContinente" [(ngModel)]="continenteSelect" [options]="continentes" optionLabel="name"
+           placeholder="Selecione" [disabled]="true"></p-dropdown>
+      </div>
+
+      <div class="col-2 p-fluid">
+        <label class="label">País:</label>
+      </div>
+      <div class="col-10 p-fluid">
+        <p-dropdown #pais="ngModel" name="campPais" [(ngModel)]="paisSelect" [options]="paisesSelect" placeholder="Selecione"  [disabled]="true"
+        optionLabel="name"></p-dropdown>
+      </div>
+
+      <div class="col-2 p-fluid">
+        <label class="label">Ativo:</label>
+      </div>
+      <div class="col-10 p-fluid">
+        <p-checkbox name="campAtivo" [(ngModel)]="campeonato.ativo" [binary]="true" inputId="binary" [disabled]="true"></p-checkbox>
+      </div>
+    </div>
+  </div>
+
+  <app-times-vinculados [campeonato]="campeonato"></app-times-vinculados>
+
+  <div class="col-12 spaceTop alignRight">
+    <a class="margin-right" routerLink="/campeonatos" pButton icon="pi pi-arrow-left"></a>
+  </div>
+</div>

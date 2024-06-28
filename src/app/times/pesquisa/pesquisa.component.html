@@ -1,0 +1,76 @@
+<div class="container spaceHeader">
+  <h2 class="subtitulo">Times</h2>
+
+  <div class="card flex justify-content-center" *ngIf="showSpinner">
+    <p-progressSpinner [style]="{width: '40px', height: '50px'}"  strokeWidth="3"
+      fill="var(--surface-ground)" animationDuration=".6s" styleClass="custom-spinner" ></p-progressSpinner>
+  </div>
+
+  <div class="col-12 spaceTop">
+      <p-table [value]="times"
+          [responsive]="true"
+          [lazy]="true"
+          (onLazyLoad)="changePage($event)"
+          [paginator]="true"
+          [totalRecords]="totalRegistros"
+          [rows]="timeFilter.itensPorPagina"
+          #tabela
+          styleClass="p-datatable-gridlines p-datatable-striped"
+          [filterDelay]="800"
+          [globalFilterFields]="['nome']">
+
+          <ng-template pTemplate="caption">
+              <div class="col-12 p-fluid">
+                <span class="p-input-icon-left">
+                  <i class="pi pi-search"></i>
+                  <input pInputText type="text" (input)="tabela.filterGlobal($any($event.target).value, 'contains')" placeholder="Pesquisa por nome" />
+                </span>
+              </div>
+         </ng-template>
+
+          <ng-template pTemplate="header">
+              <tr>
+                  <th>Nome</th>
+                  <th>País</th>
+                  <th>Continente</th>
+                  <th>Ações</th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-time>
+              <tr>
+                  <td>
+                    <span class="p-column-title">Nome</span> <!--É exibido quando a tabela ficar menor-->
+                    {{time.nome}}
+                  </td>
+                  <td>
+                    <span class="p-column-title">País</span>
+                    {{time.pais == null ? '-' : time.pais}}
+                  </td>
+
+                  <td>
+                    <span class="p-column-title">Continente</span>
+                    {{time.continente == null ? '-' : time.continente}}
+                  </td>
+
+                  <td class="acoes">
+                    <a [routerLink]="['/times/visualizar', time.id]" icon="pi pi-search" class="cursor-pointer" pButton pTooltip="Visualizar time"></a>
+                    <a [routerLink]="['/times/editar', time.id]" icon="pi pi-pencil" class="cursor-pointer" pButton pTooltip="Editar time"></a>
+                    <a (click)="delete(time)" pTooltip="Deletar time" pButton icon="pi pi-trash"></a>
+                  </td>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <!--Observe que foi definido o valor 6 para o colspan, isso porque existem 6 colunas na nossa tabela de lançamentos.-->
+              <td colspan="6">
+                Nenhum time encontrado
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <div class="col-12 spaceTop alignRight">
+          <a routerLink="/times/novo" tooltipPosition="top" pButton icon="pi pi-plus" pTooltip="Adicionar time"></a>
+        </div>
+
+  </div>

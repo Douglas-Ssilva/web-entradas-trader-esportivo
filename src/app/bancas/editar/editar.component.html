@@ -1,0 +1,56 @@
+<div class="container spaceHeader">
+  <h2 class="subtitulo">Editar Banca</h2>
+
+  <form #form="ngForm" autocomplete="off" (submit)="edit()">
+
+    <div class="col-12 p-fluid">
+      <div class="grid">
+        <div class="col-2 p-fluid">
+          <label class="label">Nome:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <input type="text" pInputText name="nome" [(ngModel)]="banca.nome" required #nome="ngModel"  minlength="3" maxlength="100">
+          <app-message [control]="nome" error="required" text="Informe um nome" ></app-message>
+          <app-message [control]="nome" error="minlength" text="Informe pelo menos 3 caracteres"></app-message>
+          <app-message [control]="nome" error="maxlength" text="Informe no máximo 100 caracteres"></app-message>
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">Valor:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-inputNumber name="valor" mode="currency" currency="BRL" [ngModel]="banca.valor" #valor="ngModel" [disabled]="true"></p-inputNumber>
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">Saque:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-inputNumber name="saque" mode="currency" currency="BRL" [(ngModel)]="banca.saque" #saque="ngModel" [disabled]="aporte.value || valor.value == 0"></p-inputNumber>
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">Aporte:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-inputNumber name="aporte" mode="currency" currency="BRL" [(ngModel)]="banca.aporte" #aporte="ngModel" [disabled]="saque.value"></p-inputNumber>
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">Principal:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-checkbox name="campPrincipal" [(ngModel)]="banca.principal" [binary]="true" inputId="binary" ></p-checkbox>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-12 spaceTop alignRight">
+      <a class="margin-right" routerLink="/bancas" pButton  icon="pi pi-arrow-left"></a>
+      <button type="submit" pButton [disabled]="form.invalid" icon="pi pi-save"></button>
+    </div>
+
+
+  </form>
+
+</div>

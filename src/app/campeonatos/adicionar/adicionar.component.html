@@ -1,0 +1,61 @@
+<div class="container spaceHeader">
+  <h2 class="subtitulo">Adicionar Campeonato</h2>
+
+  <form #formCamp="ngForm" autocomplete="off" (ngSubmit)="save()">
+
+    <div class="col-12 p-fluid">
+      <div class="grid">
+        <div class="col-2 p-fluid">
+          <label class="label">Nome:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-chips [(ngModel)]="campeonato.nomesTimes" separator="," placeholder="Libertadores, Copa do Brasil, Brasileirão" name="nome" #nome="ngModel"
+          [addOnBlur]="true" [required]="true">
+        </p-chips>
+        <app-message [control]="nome" error="required" text="Informe um nome" ></app-message>
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">Total times:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <input type="number" pInputText name="totalTimes" [(ngModel)]="campeonato.totalTimes" >
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">Continente:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-dropdown #continente="ngModel" name="campContinente" [(ngModel)]="continenteSelect" [options]="continentes" placeholder="Selecione"
+          [filter]="true"
+          [showClear]="true"
+          (onChange)="aoSelecionarContinente()" optionLabel="name"></p-dropdown>
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">País:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-dropdown #pais="ngModel" name="campPais" [(ngModel)]="paisSelect" [options]="paisesSelect" placeholder="Selecione"
+          [filter]="true"
+          [showClear]="true"
+          optionLabel="name"></p-dropdown>
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">Ativo:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-checkbox name="campAtivo" [(ngModel)]="campeonato.ativo" [binary]="true" inputId="binary" ></p-checkbox>
+        </div>
+      </div>
+  </div>
+
+  <div class="col-12 spaceTop alignRight">
+    <a class="margin-right" routerLink="/campeonatos" pButton  icon="pi pi-arrow-left"></a>
+    <button type="submit" pButton [disabled]="formCamp.invalid" icon="pi pi-save"></button>
+  </div>
+
+  </form>
+
+</div>

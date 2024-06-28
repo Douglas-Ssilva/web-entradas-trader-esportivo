@@ -1,0 +1,193 @@
+
+<div class="container spaceHeader">
+
+  <div class="card flex justify-content-center" *ngIf="showSpinner">
+    <p-progressSpinner [style]="{width: '40px', height: '50px'}"  strokeWidth="3"
+      fill="var(--surface-ground)" animationDuration=".6s" styleClass="custom-spinner" ></p-progressSpinner>
+  </div>
+
+  <div class="grid">
+    <div class="col-12">
+      <div class="col-offset-4 col-3 p-fluid">
+        <label for="range" class="label">Intervalo Data</label>
+        <p-calendar
+          name="intervaloDatas"
+          [(ngModel)]="rangeDates"
+          selectionMode="range"
+          [readonlyInput]="true"
+          inputId="range"
+          dateFormat="dd/mm/yy"
+          (onSelect)="buscarDados()"
+          [maxDate]="currentDate"
+        ></p-calendar>
+      </div>
+    </div>
+
+    <div class="col-12"></div>
+
+    <div class="col-3 p-fluid">
+      <p-card header="Total apostas"> {{ dadosGerais?.totalApostas }} </p-card>
+    </div>
+
+    <div class="col-3 p-fluid" >
+      <p-card header="Lucro/Prejuízo">
+         <span [style.color]="dadosGerais != null && dadosGerais.lucroPrejuizo != null && dadosGerais.lucroPrejuizo > 0 ? 'green' : 'red'">
+            {{ (dadosGerais?.lucroPrejuizo ? dadosGerais!.lucroPrejuizo : 0) | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }}
+          </span>
+      </p-card>
+    </div>
+    <div class="col-3 p-fluid">
+      <p-card header="Banca %">
+        <span [style.color]="dadosGerais != null && dadosGerais.lucroPrejuizo != null && dadosGerais.lucroPrejuizo > 0 ? 'green' : 'red'">
+          {{ dadosGerais?.percentualBanca ? dadosGerais!.percentualBanca : 0 }}%
+        </span>
+      </p-card>
+    </div>
+    <div class="col-3 p-fluid">
+      <p-card header="Banca"> {{ (dadosGerais?.valorBanca ? dadosGerais!.valorBanca : 0)  | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }}  </p-card>
+    </div>
+
+    <div class="col-12"></div>
+
+    <div *ngFor="let metodo of metodos" class="col-12">
+      <p-panel header="{{ metodo.nome }}" [toggleable]="true">
+
+        <div class="grid">
+        <div class="col-10">
+          <p-chart type="line" [data]="metodo.dataGrafico"></p-chart>
+        </div>
+        <div class="col-2 p-fluid">
+          <p-card header="Entradas"> {{ metodo.totalEntradas }} </p-card>
+          <p-card header="Stake %"> {{ metodo.porcentagemStake }}%  </p-card>
+          <p-card header="Total"> {{ metodo.lucroPrejuizo  | currency : "BRL" : "symbol" : "1.2-2" : "pt" }} </p-card>
+          <p-card header="Correção" *ngIf="metodo.correcao"> {{ metodo.correcao | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }} </p-card>
+        </div>
+        </div>
+
+
+        <div class="grid">
+          <div class="col-2 p-fluid" *ngIf="metodo.exigirPreenchimentoFlagGolContraFavor">
+            <p-card header="Gols Favor"> {{  metodo.totalGolsFavor | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }} </p-card>
+          </div>
+          <div class="col-2 p-fluid" *ngIf="metodo.exigirPreenchimentoFlagGolContraFavor">
+            <p-card header="Gols Contra"> {{ metodo.totalGolsContra | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }} </p-card>
+          </div>
+          <div class="col-3 p-fluid" *ngIf="metodo.exigirPreenchimentoFlagGolContraFavor">
+            <p-card header="Qtde Gols Favor"> {{ metodo.golsFavor }} </p-card>
+          </div>
+          <div class="col-3 p-fluid" *ngIf="metodo.exigirPreenchimentoFlagGolContraFavor">
+            <p-card header="Qtde Gols Contra"> {{ metodo.golsContra }} </p-card>
+          </div>
+          <div class="col-2 p-fluid" *ngIf="metodo.exigirPreenchimentoFlagRedCard">
+            <p-card header="Red card"> {{ metodo.redCard }} </p-card>
+          </div>
+        </div>
+
+        <div class="col-12"></div>
+
+        <div class="grid">
+          <div class="col-6">
+            <app-times-lucrativos
+              [times]="metodo.timesLucrativos?.timesMaisLucrativos"
+              [contentCaption]="'Times mais Lucrativos'"
+            ></app-times-lucrativos>
+          </div>
+
+          <div class="col-6">
+            <app-times-lucrativos
+              [times]="metodo.timesLucrativos?.timesMenosLucrativos"
+              [contentCaption]="'Times menos Lucrativos'"
+            ></app-times-lucrativos>
+          </div>
+        </div>
+      </p-panel>
+
+      <br />
+    </div>
+
+    <div class="field col-12">
+      <div
+        class="col-offset-6 p-fluid"
+        *ngIf="totalRegistrosMetodos && totalRegistrosMetodos > 5 && metodos.length < totalRegistrosMetodos"  >
+        <button
+          pButton
+          pRipple
+          type="button"
+          icon="pi pi-plus"
+          class="p-button-rounded"
+          (click)="buscarMaisMetodos()"
+        ></button>
+      </div>
+    </div>
+
+    <div class="col-12 spaceTop">
+      <p-panel header="Lucro/Prejuízo Campeonatos" [toggleable]="true">
+        <p-table
+            [value]="campeonatoslucroPrejuizo"
+            [responsive]="true"
+            [lazy]="true"
+            (onLazyLoad)="changePageCampeonato($event)"
+            [paginator]="true"
+            [totalRecords]="totalRegistrosCampeonato"
+            [rows]="campeonatoFilter.itensPorPagina"
+            #tabelaCamp
+            styleClass="p-datatable-gridlines p-datatable-striped">
+
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Nome</th>
+                    <th>Montante</th>
+                    <th>Entradas</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-camp>
+                <tr>
+                    <td>
+                      <span class="p-column-title">Nome</span>
+                      {{camp.nome}}
+                    </td>
+                    <td>
+                      <span class="p-column-title">Montante</span>
+                      {{camp.valor | currency : "BRL" : "symbol" : "1.2-2" : "pt"}}
+                    </td>
+                    <td>
+                      <span class="p-column-title">Entradas</span>
+                      {{camp.totalEntradas}}
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <!--Observe que foi definido o valor 6 para o colspan, isso porque existem 6 colunas na nossa tabela de lançamentos.-->
+                <td colspan="6">
+                  Nenhuma entrada encontrada
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+      </p-panel>
+      </div>
+
+    <!-- <div class="col-12"
+      *ngIf="campeonatoslucroPrejuizo && (campeonatoslucroPrejuizo.campeonatosMaisLucrativos.length > 0 || campeonatoslucroPrejuizo.campeonatosMenosLucrativos.length > 0)">
+      <p-panel header="Lucro/Prejuízo Campeonatos" [toggleable]="true">
+        <div class="grid">
+          <div class="col-6">
+            <app-campeonatos-lucrativos
+              [campeonatos]="campeonatoslucroPrejuizo.campeonatosMaisLucrativos"
+              [contentCaption]="'Campeonatos mais Lucrativos'"
+            ></app-campeonatos-lucrativos>
+          </div>
+
+          <div class="col-6">
+            <app-campeonatos-lucrativos
+              [campeonatos]="campeonatoslucroPrejuizo.campeonatosMenosLucrativos"
+              [contentCaption]="'Campeonatos menos Lucrativos'"
+            ></app-campeonatos-lucrativos>
+          </div>
+        </div>
+      </p-panel>
+    </div> -->
+</div>
+</div>

@@ -1,0 +1,64 @@
+<div class="container spaceHeader">
+  <h2 class="subtitulo">Adicionar Time</h2>
+
+  <form #formCamp="ngForm" autocomplete="off" (ngSubmit)="save()">
+
+    <div class="col-12 p-fluid">
+      <div class="grid">
+        <div class="col-2 p-fluid">
+          <label class="label">Nome:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-chips [(ngModel)]="time.nomesTimes" separator="," placeholder="Chelsea, Real Madrid, Arsenal" name="nome" #nome="ngModel"
+            [addOnBlur]="true" [required]="true">
+          </p-chips>
+          <app-message [control]="nome" error="required" text="Informe um nome" ></app-message>
+          <!-- <app-message [control]="nome" error="minlength" text="Informe pelo menos 3 caracteres"></app-message>
+          <app-message [control]="nome" error="maxlength" text="Informe no máximo 100 caracteres"></app-message> -->
+
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">Continente:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-dropdown #continente="ngModel"
+          name="continente"
+          [(ngModel)]="continenteSelect"
+          [options]="continentes"
+          [required]="true"
+          [filter]="true"
+          (onChange)="aoSelecionarContinente()"
+          optionLabel="name"
+          placeholder="Selecione"
+          [showClear]="true"></p-dropdown>
+          <app-message [control]="continente" error="required" text="Informe um continente" ></app-message>
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">País:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-dropdown #pais="ngModel"
+          name="pais"
+          [(ngModel)]="paisSelect"
+          [options]="paisesSelect"
+          placeholder="Selecione"
+          [filter]="true"
+          optionLabel="name"
+          [required]="true"
+          [showClear]="true"></p-dropdown>
+          <app-message [control]="pais" error="required" text="Informe um pais" ></app-message>
+        </div>
+
+      </div>
+  </div>
+
+  <div class="col-12 spaceTop alignRight">
+    <a class="margin-right" routerLink="/times" pButton  icon="pi pi-arrow-left"></a>
+    <button type="submit" pButton [disabled]="formCamp.invalid" icon="pi pi-save"></button>
+  </div>
+
+  </form>
+
+</div>

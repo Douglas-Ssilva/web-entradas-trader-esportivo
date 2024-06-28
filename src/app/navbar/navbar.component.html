@@ -1,0 +1,74 @@
+<header class="header">
+  <div class="container">
+    <a  routerLink="/" class="iconLink grid-10">
+      <i class="pi pi-chart-bar iconMenu"></i>
+    </a>
+
+    <div class="infoUser grid-3">
+     <span>Douglas Barros</span>
+     <!-- <p-avatar icon="pi pi-user" styleClass="mr-2" shape="circle"></p-avatar> -->
+   </div>
+
+    <nav class="menu grid-2" data-menu="suave" *ngIf="isUserLogado()">
+      <button #buttonNav data-menu="button" aria-expanded="false" aria-controls="menu"  (click)="toggleMenu(buttonNav, listMenu)">Menu</button>
+      <ul #listMenu data-menu="list" id="menu">
+        <li><a routerLink="/dashboard">Dashboard</a></li>
+        <li><a routerLink="/entradas">Entradas</a></li>
+        <li><a routerLink="/campeonatos">Campeonatos</a></li>
+        <li><a routerLink="/times">Times</a></li>
+        <li><a routerLink="/metodos">Métodos</a></li>
+        <li><a routerLink="/bancas">Bancas</a></li>
+        <li><a routerLink="/logout">Logout</a></li>
+      </ul>
+    </nav>
+    <div class="grid-1" style="margin-top: 13px;" *ngIf="isUserLogado()">
+      <a (click)="logout()" href="javascript:void(0)">
+        <i class="pi pi-power-off" style="font-size: 1.7rem;color: white"></i>
+      </a>
+    </div>
+
+
+  </div>
+</header>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!--<nav class="navbar">
+
+  <div class="container">
+    <div class="grid">
+      <div class="col-10">
+        <button name="buttonNav" #buttonNav data-nav="button" type="button" (click)="toggleMenu(buttonNav)">
+           <i class="pi pi-bars"></i>
+        </button>
+      </div>
+      <div class="col-2">
+         <img src="assets/icons8-money-transfer-40.png" alt="Money" style="position: relative; top: 8px;" width="30" >
+      </div>
+    </div>
+  </div>
+
+  <ul class="navbar-menu" [hidden]="!exibirMenu">
+    <li class="navbar-user">Douglas</li>
+    <li class="navbar-menu-item"><a routerLink="/campeonatos">Campeonatos</a></li>
+    <li class="navbar-menu-item"><a style="cursor: pointer;">Logout</a></li>
+  </ul>
+
+</nav>-->

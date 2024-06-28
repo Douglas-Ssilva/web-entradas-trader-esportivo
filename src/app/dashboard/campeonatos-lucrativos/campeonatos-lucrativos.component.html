@@ -1,0 +1,31 @@
+<div class="card">
+  <p-table
+    id="tableTimes"
+    [value]="campeonatos"
+    styleClass="p-datatable-sm"
+  >
+    <ng-template pTemplate="caption"> <div style="text-align: center;">{{ contentCaption }} </div>  </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nome</th>
+        <th>Montante</th>
+        <th>Entradas</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-camp>
+      <tr>
+        <td>{{ camp.nome }}</td>
+        <td>{{ camp.valor | currency : "BRL" : "symbol" : "1.2-2" : "pt" }}</td>
+        <td>{{ camp.totalEntradas }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">
+          Não há registros
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

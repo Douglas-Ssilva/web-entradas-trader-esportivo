@@ -1,0 +1,13 @@
+<app-navbar></app-navbar>
+<p-toast></p-toast>
+<router-outlet></router-outlet>
+<app-rodape></app-rodape>
+
+<div class="card flex justify-content-center gap-2">
+  <p-confirmDialog header="Confirmation" icon="pi pi-question-circle" #confirmation >
+    <ng-template pTemplate="footer">
+        <button type="button" pButton icon="pi pi-times" label="No" (click)="confirmation.reject()"></button>
+        <button type="button" pButton icon="pi pi-check" label="Yes" (click)="confirmation.accept()"></button>
+    </ng-template>
+  </p-confirmDialog>
+</div>

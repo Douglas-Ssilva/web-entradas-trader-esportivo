@@ -1,0 +1,81 @@
+<div class="container spaceHeader">
+  <h2 class="subtitulo">Editar Campeonato</h2>
+
+  <div class="card flex justify-content-center" *ngIf="showSpinner">
+    <p-progressSpinner [style]="{width: '40px', height: '50px'}"  strokeWidth="3"
+      fill="var(--surface-ground)" animationDuration=".6s" styleClass="custom-spinner" ></p-progressSpinner>
+  </div>
+
+  <form #formCamp="ngForm" autocomplete="off" (ngSubmit)="edit()">
+
+    <div class="col-12 p-fluid">
+      <div class="grid">
+        <div class="col-2 p-fluid">
+          <label class="label">Nome:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <input type="text" pInputText name="nome" [(ngModel)]="campeonato.nome" required="true">
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">Total times:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <input type="number" pInputText name="totalTimes" [(ngModel)]="campeonato.totalTimes">
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">Continente:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-dropdown #continente="ngModel" name="campContinente" [(ngModel)]="continenteSelect" [options]="continentes" placeholder="Selecione"
+          [filter]="true"
+          [showClear]="true"
+          (onChange)="aoSelecionarContinente()" optionLabel="name"></p-dropdown>
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">País:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-dropdown #pais="ngModel" name="campPais" [(ngModel)]="paisSelect" [options]="paisesSelect" placeholder="Selecione"
+          [filter]="true"
+          [showClear]="true"
+          optionLabel="name"></p-dropdown>
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">Ativo:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-checkbox name="campAtivo" [(ngModel)]="campeonato.ativo" [binary]="true" inputId="binary" ></p-checkbox>
+        </div>
+
+      </div>
+  </div>
+
+  <app-times-vinculados
+    [campeonato]="campeonato"
+    [timeAdicionado]="timeAdicionado"
+    [exibirColumnDesvincularTimes]="true"
+    (eventQuantidadeTimesPossoVincular)="quantidadeTimesPodeVincular($event)"
+    (eventUnselectTime)="removeTime($event)">
+  </app-times-vinculados>
+
+
+  <app-times-a-vincular
+    [campeonato]="campeonato"
+    [timeRemovido]="timeRemovido"
+    [quantidadeTimesPossoVincular]="quantidadeTimesPossoVincular"
+    (eventSelectedTimes)="saveTimesSelecionados($event)"
+    (eventTimeSelecionado)="addTime($event)">
+  </app-times-a-vincular>
+
+  <div class="col-12 spaceTop alignRight">
+    <a class="margin-right" routerLink="/campeonatos" pButton  icon="pi pi-arrow-left"></a>
+    <button type="submit" pButton [disabled]="formCamp.invalid || !formCamp.dirty" icon="pi pi-save"></button>
+  </div>
+
+  </form>
+
+</div>

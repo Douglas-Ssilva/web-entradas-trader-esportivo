@@ -1,0 +1,31 @@
+<div class="card">
+  <p-table
+    id="tableTimes"
+    [value]="times"
+    styleClass="p-datatable-sm"
+  >
+    <ng-template pTemplate="caption"> <div style="text-align: center;">{{ contentCaption }} </div>  </ng-template>
+    <ng-template pTemplate="header">
+      <tr>
+        <th>Nome</th>
+        <th>Montante</th>
+        <th>Entradas</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-time>
+      <tr>
+        <td>{{ time.nomeTime }}</td>
+        <td>{{ time.valor | currency : "BRL" : "symbol" : "1.2-2" : "pt" }}</td>
+        <td>{{ time.totalEntradas }}</td>
+      </tr>
+    </ng-template>
+
+    <ng-template pTemplate="emptymessage">
+      <tr>
+        <td colspan="6">
+          Não há registros
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+</div>

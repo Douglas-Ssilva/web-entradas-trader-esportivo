@@ -1,0 +1,249 @@
+<div class="container spaceHeader">
+  <h2 class="subtitulo">Visualizar Entrada</h2>
+
+  <div class="formgrid grid">
+    <div class="field col-6">
+      <div class="col-12 p-fluid">
+        <label for="campeonato" class="label">Campeonato</label>
+        <p-autoComplete
+          id="campeonato"
+          name="campeonato"
+          #campeonato="ngModel"
+          [(ngModel)]="campeonatoSelect"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="34"
+          field="label"
+          [dropdown]="true"
+          [disabled]="true"
+        >
+        </p-autoComplete>
+      </div>
+    </div>
+
+    <div class="field col-6">
+      <div class="col-12 p-fluid">
+        <label for="metodo" class="label">Método</label>
+        <p-autoComplete
+          id="metodo"
+          name="metodo"
+          #metodo="ngModel"
+          [(ngModel)]="metodoSelect"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="34"
+          field="label"
+          [dropdown]="true"
+          [disabled]="true"
+        >
+        </p-autoComplete>
+      </div>
+    </div>
+
+    <div class="field col-6">
+      <div class="col-12 p-fluid">
+        <label for="mandante" class="label">Mandante</label>
+        <p-autoComplete
+          id="mandante"
+          name="mandante"
+          #mandante="ngModel"
+          [(ngModel)]="mandanteSelect"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="34"
+          field="label"
+          [dropdown]="true"
+          [disabled]="true"
+        >
+        </p-autoComplete>
+      </div>
+    </div>
+
+    <div class="field col-6">
+      <div class="col-12 p-fluid">
+        <label for="visitante" class="label">Visitante</label>
+        <p-autoComplete
+          id="visitante"
+          name="visitante"
+          #visitante="ngModel"
+          [(ngModel)]="visitanteSelect"
+          [virtualScroll]="true"
+          [virtualScrollItemSize]="34"
+          field="label"
+          [dropdown]="true"
+          [disabled]="true"
+        >
+        </p-autoComplete>
+      </div>
+    </div>
+
+    <div
+      class="field col-6"
+      *ngIf="metodoSelect?.exigirPreenchimentoFlagMandanteVisitante"
+    >
+      <div class="col-12 p-fluid">
+        <label class="label" for="flMandante">Aposta a favor mandante</label
+        >&nbsp;
+        <p-radioButton
+          name="flAposta"
+          value="apostaAFavorMandante"
+          [(ngModel)]="apostaAFavor"
+          inputId="flMandante"
+          [disabled]="true"
+        ></p-radioButton>
+      </div>
+    </div>
+
+    <div
+      class="field col-6"
+      *ngIf="metodoSelect?.exigirPreenchimentoFlagMandanteVisitante"
+    >
+      <div class="col-12 p-fluid">
+        <label class="label" for="flVisitante">Aposta a favor visitante</label
+        >&nbsp;
+        <p-radioButton
+          name="flAposta"
+          value="apostaAFavorVisitante"
+          [(ngModel)]="apostaAFavor"
+          inputId="flVisitante"
+          [disabled]="true"
+        ></p-radioButton>
+      </div>
+    </div>
+
+    <!-- <div
+      class="field col-12"
+      *ngIf="metodoSelect?.exigirPreenchimentoFlagMandanteVisitante"
+    ></div>
+
+    <div class="field col-12"></div> -->
+
+    <div class="field col-4" *ngIf="metodoSelect?.exigirPreenchimentoFlagGolContraFavor">
+      <div class="col-12 p-fluid">
+        <label for="golFavor" class="label">Gol a favor:</label>&nbsp;
+        <p-checkbox
+          name="golFavor"
+          [(ngModel)]="entrada.golAFavor"
+          [binary]="true"
+          inputId="golFavor"
+          [disabled]="true"></p-checkbox>
+      </div>
+    </div>
+
+    <div class="field col-4" *ngIf="metodoSelect?.exigirPreenchimentoFlagGolContraFavor">
+      <div class="col-12 p-fluid">
+        <label for="golContra" class="label">Gol contra posição:</label>&nbsp;
+        <p-checkbox
+          name="golContra"
+          [(ngModel)]="entrada.golContra"
+          [binary]="true"
+          inputId="golContra"
+          [disabled]="true"></p-checkbox>
+      </div>
+    </div>
+
+    <div class="field col-4" *ngIf="metodoSelect?.exigirPreenchimentoFlagRedCard">
+      <div class="col-12 p-fluid">
+        <label for="redCard" class="label">Red card:</label>&nbsp;
+        <p-checkbox
+          name="redCard"
+          [(ngModel)]="entrada.redCard"
+          [binary]="true"
+          inputId="redCard"
+          #redCard="ngModel"
+          [disabled]="true"></p-checkbox>
+      </div>
+    </div>
+
+    <div class="field col-4" *ngIf="entrada.golAFavor && entrada.golContra">
+      <div class="col-12 p-fluid">
+        <label for="maisGolsFavor" class="label">Mais Gols Favor:</label>&nbsp;
+        <p-checkbox name="maisGolsFavor" [(ngModel)]="entrada.maisGolsFavor" [binary]="true" inputId="maisGolsFavor"
+          [disabled]="true"></p-checkbox>
+      </div>
+    </div>
+    <div class="field col-4" *ngIf="entrada.golAFavor && entrada.golContra">
+      <div class="col-12 p-fluid">
+        <label for="maisGolsContra" class="label">Mais Gols Contra:</label>&nbsp;
+        <p-checkbox name="maisGolsContra" [(ngModel)]="entrada.maisGolsContra" [binary]="true" inputId="maisGolsContra"
+        [disabled]="true"></p-checkbox>
+      </div>
+    </div>
+
+    <div class="field col-12"></div>
+
+    <div class="field col-4">
+      <div class="col-12 p-fluid">
+        <label for="valor" class="label">Stake Default</label>
+        <p-inputNumber
+          id="valor"
+          name="valor"
+          mode="currency"
+          currency="BRL"
+          [(ngModel)]="entrada.valor"
+          #valor="ngModel"
+          [disabled]="true"
+        >
+        </p-inputNumber>
+      </div>
+    </div>
+
+    <div class="field col-4">
+      <div class="col-12 p-fluid">
+        <label for="lucroPrejuizo" class="label">Lucro/Prejuízo</label>
+        <p-inputNumber
+          id="lucroPrejuizo"
+          name="lucroPrejuizo"
+          #lucroPrejuizo="ngModel"
+          inputId="currency-br"
+          mode="currency"
+          currency="BRL"
+          locale="pt-BR"
+          [(ngModel)]="entrada.lucroPrejuizo"
+          [disabled]="true"
+        >
+        </p-inputNumber>
+      </div>
+    </div>
+
+    <div class="field col-4">
+      <div class="col-12 p-fluid">
+        <label for="odd" class="label">Odd</label>
+        <p-inputNumber
+          id="odd"
+          name="odd"
+          [(ngModel)]="entrada.odd"
+          mode="decimal"
+          locale="en-US"
+          [minFractionDigits]="2"
+          [max]="1000"
+          [min]="1.01"
+          [disabled]="true"
+        >
+        </p-inputNumber>
+      </div>
+    </div>
+
+    <div class="field col-4">
+      <div class="col-12 p-fluid">
+        <label for="date" class="label">Data</label>
+        <p-calendar
+          name="date"
+          #date="ngModel"
+          dateFormat="dd/mm/yy"
+          [(ngModel)]="entrada.data"
+          [showIcon]="true"
+          inputId="icon"
+          [disabled]="true"
+        >
+        </p-calendar>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-12 spaceTop alignRight">
+    <a
+      class="margin-right"
+      routerLink="/entradas"
+      pButton
+      icon="pi pi-arrow-left"
+    ></a>
+  </div>
+</div>

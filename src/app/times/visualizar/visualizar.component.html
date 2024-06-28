@@ -1,0 +1,47 @@
+<div class="container spaceHeader">
+  <h2 class="subtitulo">Visualizar Time</h2>
+
+    <div class="col-12 p-fluid">
+      <div class="grid">
+        <div class="col-2 p-fluid">
+          <label class="label">Nome:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <input type="text" pInputText name="nome" [(ngModel)]="time.nome" #nome="ngModel" [disabled]="true">
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">Continente:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-dropdown #continente="ngModel"
+          name="continente"
+          [(ngModel)]="continenteSelect"
+          [options]="continentes"
+          optionLabel="name"
+          [disabled]="true"
+          placeholder="Selecione"></p-dropdown>
+        </div>
+
+        <div class="col-2 p-fluid">
+          <label class="label">País:</label>
+        </div>
+        <div class="col-10 p-fluid">
+          <p-dropdown #pais="ngModel"
+          name="pais"
+          [(ngModel)]="paisSelect"
+          [options]="paisesSelect"
+          placeholder="Selecione"
+          optionLabel="name"
+          [disabled]="true"></p-dropdown>
+
+        </div>
+
+      </div>
+  </div>
+
+  <div class="col-12 spaceTop alignRight">
+    <a class="margin-right" routerLink="/times" pButton  icon="pi pi-arrow-left"></a>
+  </div>
+
+</div>

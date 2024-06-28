@@ -1,0 +1,83 @@
+<div class="container spaceHeader">
+  <h2 class="subtitulo">Entradas</h2>
+
+    <div class="card flex justify-content-center" *ngIf="showSpinner">
+      <p-progressSpinner [style]="{width: '40px', height: '50px'}"  strokeWidth="3"
+        fill="var(--surface-ground)" animationDuration=".6s" styleClass="custom-spinner" ></p-progressSpinner>
+      </div>
+
+
+      <!-- <input pInputText type="text" placeholder="Pesquisa por nome" [hidden]="true"/> -->
+
+  <div class="col-12 spaceTop">
+      <p-table
+          [value]="entradas"
+          [responsive]="true"
+          [lazy]="true"
+          (onLazyLoad)="changePage($event)"
+          [paginator]="true"
+          [totalRecords]="totalRegistros"
+          [rows]="entradaFiltro.itensPorPagina"
+          #tabela
+          styleClass="p-datatable-gridlines p-datatable-striped">
+
+
+          <ng-template pTemplate="header">
+              <tr>
+                  <th>Campeonato</th>
+                  <th>Método</th>
+                  <th>Mandante</th>
+                  <th>Visitante</th>
+                  <th>Valor</th>
+                  <th>Lucro/Prejuízo</th>
+                  <th>Ações</th>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-entrada>
+              <tr>
+                  <td>
+                    <span class="p-column-title">Campeonato</span>
+                    {{entrada.campeonato.nome}}
+                  </td>
+                  <td>
+                    <span class="p-column-title">Método</span>
+                    {{entrada.metodo.nome}}
+                  </td>
+                  <td>
+                    <span class="p-column-title">Mandante</span>
+                    {{entrada.timeMandante}}
+                  </td>
+                  <td>
+                    <span class="p-column-title">Visitante</span>
+                    {{entrada.timeVisitante}}
+                  </td>
+                  <td>
+                    <span class="p-column-title">Valor</span>
+                    {{entrada.valor | currency : "BRL" : "symbol" : "1.2-2" : "pt"}}
+                  </td>
+                  <td [style]="entrada.lucroPrejuizo >= 0 ? 'color : green' : 'color : red'">
+                    <span class="p-column-title">Lucro/Prejuízo</span>
+                    {{entrada.lucroPrejuizo | currency : "BRL" : "symbol" : "1.2-2" : "pt"}}
+                  </td>
+
+                  <td class="acoes">
+                    <a [routerLink]="['/entradas/visualizar', entrada.id]" icon="pi pi-search" class="cursor-pointer space-left" pButton pTooltip="Visualizar entrada"></a>
+                    <a [routerLink]="['/entradas/editar', entrada.id]" icon="pi pi-pencil" class="cursor-pointer space-left" pButton pTooltip="Editar entrada"></a>
+                  </td>
+              </tr>
+          </ng-template>
+          <ng-template pTemplate="emptymessage">
+            <tr>
+              <!--Observe que foi definido o valor 6 para o colspan, isso porque existem 6 colunas na nossa tabela de lançamentos.-->
+              <td colspan="6">
+                Nenhuma entrada encontrada
+              </td>
+            </tr>
+          </ng-template>
+        </p-table>
+
+        <div class="col-12 spaceTop alignRight">
+          <a routerLink="/entradas/novo" tooltipPosition="top" pButton icon="pi pi-plus"></a>
+        </div>
+
+  </div>

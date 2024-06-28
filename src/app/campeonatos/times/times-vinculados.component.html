@@ -1,0 +1,74 @@
+<div class="col-12 spaceTop">
+
+  <h3 class="subtituloh3">Times Vinculados</h3>
+
+  <div class="card flex justify-content-center" *ngIf="showSpinner">
+    <p-progressSpinner [style]="{width: '40px', height: '50px'}"  strokeWidth="3"
+      fill="var(--surface-ground)" animationDuration=".6s" styleClass="custom-spinner" ></p-progressSpinner>
+  </div>
+
+  <p-table
+      [value]="times"
+      [responsive]="true"
+      [lazy]="true"
+      (onLazyLoad)="changePage($event)"
+      [paginator]="true"
+      [rows]="campeonatoFiltro.itensPorPagina"
+      [totalRecords]="totalRegistrosTimesVinculados"
+      #tabela
+      [filterDelay]="800"
+      [globalFilterFields]="['nome']"
+      styleClass="p-datatable-gridlines p-datatable-striped">
+
+      <ng-template pTemplate="caption">
+        <div class="col-12 p-fluid">
+          <span class="p-input-icon-left">
+            <i class="pi pi-search"></i>
+            <input #campoPesquisa pInputText type="text" (input)="tabela.filterGlobal($any($event.target).value, 'contains')" placeholder="Pesquisa por nome" />
+          </span>
+        </div>
+      </ng-template>
+
+      <ng-template pTemplate="header">
+          <tr>
+              <th>Nome</th>
+              <th>País</th>
+              <th>Continente</th>
+              <th *ngIf="exibirColumnDesvincularTimes" style="text-align: center;">
+                <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+              </th>
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="body" let-time>
+          <tr class="p-selectable-row">
+              <td>
+                <span class="p-column-title">Nome</span> <!--É exibido quando a tabela ficar menor-->
+                {{time.nome}}
+              </td>
+              <td>
+                <span class="p-column-title">País</span>
+                {{time.pais}}
+              </td>
+
+              <td>
+                <span class="p-column-title">Continente</span>
+                {{time.continente}}
+              </td>
+
+              <td *ngIf="exibirColumnDesvincularTimes" style="text-align: center;">
+                <p-button #button id="{{ time.id }}"  type="button" icon="pi pi-times" (click)="unselectTime(time)" styleClass="p-button-rounded p-button-secondary p-button-outlined"
+                  [loading]="loading && timeASerDesvinculado.id == time.id"></p-button>
+              </td>
+
+          </tr>
+      </ng-template>
+      <ng-template pTemplate="emptymessage">
+        <tr>
+          <!--Observe que foi definido o valor 6 para o colspan, isso porque existem 6 colunas na nossa tabela de lançamentos.-->
+          <td colspan="6">
+            Nenhum time encontrado
+          </td>
+        </tr>
+      </ng-template>
+    </p-table>
+

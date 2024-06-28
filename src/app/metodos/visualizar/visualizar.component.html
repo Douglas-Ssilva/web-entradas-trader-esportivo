@@ -1,0 +1,49 @@
+<div class="container spaceHeader">
+  <h2 class="subtitulo">Visualizar Método</h2>
+
+  <div class="col-12 p-fluid">
+    <div class="grid">
+      <div class="col-5 p-fluid">
+        <label class="label">Nome:</label>
+      </div>
+      <div class="col-7 p-fluid">
+        <input type="text" pInputText name="nome" [ngModel]="metodo.nome" [disabled]="true">
+      </div>
+
+      <div class="col-5 p-fluid">
+        <label class="label">Stake Default:</label>
+      </div>
+      <div class="col-7 p-fluid">
+        <p-inputNumber mode="currency" currency="BRL" [ngModel]="metodo.stakeDefault" [disabled]="true"></p-inputNumber>
+      </div>
+
+      <div class="col-5 p-fluid">
+        <label class="label">Preenchimento flag mandante/visitante:</label>
+      </div>
+      <div class="col-4 p-fluid">
+        <p-checkbox name="campAtivo" [ngModel]="metodo.exigirPreenchimentoFlagMandanteVisitante" [binary]="true" inputId="binary" [disabled]="true"></p-checkbox>
+      </div>
+
+      <div class="col-5 p-fluid">
+        <label class="label">Preenchimento flag gol contra/favor:</label>
+      </div>
+      <div class="col-7 p-fluid">
+        <p-checkbox name="flagPreenchimentoFlagGolContraFavor" [(ngModel)]="metodo.exigirPreenchimentoFlagGolContraFavor" [binary]="true" inputId="binary" [disabled]="true"></p-checkbox>
+      </div>
+
+      <div class="col-5 p-fluid">
+        <label class="label">Preenchimento flag red card:</label>
+      </div>
+      <div class="col-7 p-fluid">
+        <p-checkbox name="flagPreenchimentoFlagRedCard" [(ngModel)]="metodo.exigirPreenchimentoFlagRedCard" [binary]="true" inputId="binary"[disabled]="true" ></p-checkbox>
+      </div>
+
+    </div>
+
+  </div>
+
+  <div class="col-12 spaceTop alignRight">
+    <a class="margin-right" [routerLink]="'/metodos'" pButton icon="pi pi-arrow-left"></a>
+  </div>
+
+</div>

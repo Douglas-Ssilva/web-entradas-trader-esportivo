@@ -1,0 +1,55 @@
+<div class="container spaceHeader">
+  <h2 class="subtitulo">Visualizar Banca</h2>
+
+  <div class="col-12 p-fluid">
+    <div class="grid">
+      <div class="col-2 p-fluid">
+        <label class="label">Nome:</label>
+      </div>
+      <div class="col-10 p-fluid">
+        <input type="text" pInputText name="nome" [ngModel]="banca.nome" [disabled]="true">
+      </div>
+
+      <div class="col-2 p-fluid">
+        <label class="label">Valor:</label>
+      </div>
+      <div class="col-10 p-fluid">
+        <p-inputNumber mode="currency" currency="BRL" [ngModel]="banca.valor" [disabled]="true"></p-inputNumber>
+      </div>
+
+      <div class="col-2 p-fluid">
+        <label class="label">Principal:</label>
+      </div>
+      <div class="col-10 p-fluid">
+        <p-checkbox name="campAtivo" [ngModel]="banca.principal" [binary]="true" inputId="binary" [disabled]="true"></p-checkbox>
+      </div>
+
+    </div>
+
+  </div>
+
+  <br>
+  <br>
+
+  <div class="col-12 p-fluid">
+    <div class="grid">
+      <div class="col-6 p-fluid">
+        <p-card header="Total saque" [style]="{'width': '18rem', 'margin-bottom': '2em'}">
+          {{ banca.totalSaque | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }}
+        </p-card>
+      </div>
+
+      <div class="col-6 p-fluid">
+        <p-card header="Total aporte" [style]="{'width': '18rem', 'margin-bottom': '2em'}">
+          {{ banca.totalAporte | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }}
+        </p-card>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="col-12 spaceTop alignRight">
+    <a class="margin-right" routerLink="/bancas" pButton icon="pi pi-arrow-left"></a>
+  </div>
+
+</div>

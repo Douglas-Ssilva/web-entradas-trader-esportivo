@@ -1,0 +1,298 @@
+<div class="container spaceHeader">
+  <h2 class="subtitulo">Adicionar Entrada</h2>
+
+  <form #form="ngForm" autocomplete="off" (submit)="save()">
+
+    <div class="formgrid grid">
+      <div class="field col-6">
+        <div class="col-12 p-fluid">
+            <label for="campeonato" class="label">Campeonato</label>
+            <p-autoComplete
+                  id="campeonato"
+                  name="campeonato"
+                  #campeonato="ngModel"
+                  [(ngModel)]="campeonatoSelect"
+                  [virtualScroll]="true"
+                  [suggestions]="filteredCampeonatos"
+                  [virtualScrollItemSize]="34"
+                  (completeMethod)="filterCampeonatos($event)"
+                  field="label"
+                  [dropdown]="true"
+                  [delay]="500"
+                  (onSelect)="clearTimes()"
+                  [required]="true">
+                </p-autoComplete>
+                <app-message [control]="campeonato" error="required" text="Informe um campeonato" ></app-message>
+              </div>
+            </div>
+
+      <div class="field col-6">
+          <div class="col-12 p-fluid">
+            <label for="metodo" class="label">Método</label>
+            <p-autoComplete
+                id="metodo"
+                name="metodo"
+                #metodo="ngModel"
+                [(ngModel)]="metodoSelect"
+                [virtualScroll]="true"
+                [suggestions]="filteredMetodos"
+                [virtualScrollItemSize]="34"
+                (completeMethod)="filterMetodos($event)"
+                field="label"
+                [dropdown]="true"
+                [delay]="500"
+                (onSelect)="tratarCamposVinculados()"
+                [required]="true">
+              </p-autoComplete>
+              <app-message [control]="metodo" error="required" text="Informe um método" ></app-message>
+            </div>
+          </div>
+
+      <div class="field col-6">
+        <div class="col-12 p-fluid">
+          <label for="mandante" class="label">Mandante</label>
+          <p-autoComplete
+            id="mandante"
+            name="mandante"
+            #mandante="ngModel"
+            [(ngModel)]="mandanteSelect"
+            [virtualScroll]="true"
+            [suggestions]="filteredMandante"
+            [virtualScrollItemSize]="34"
+            (completeMethod)="filterTimes($event)"
+            field="label"
+            [dropdown]="true"
+            [delay]="500"
+            [disabled]="!campeonatoSelect"
+            [required]="true">
+          </p-autoComplete>
+          <app-message [control]="mandante" error="required" text="Informe um mandante" ></app-message>
+        </div>
+      </div>
+
+      <div class="field col-6">
+        <div class="col-12 p-fluid">
+          <label for="visitante" class="label">Visitante</label>
+          <p-autoComplete
+            id="visitante"
+            name="visitante"
+            #visitante="ngModel"
+            [(ngModel)]="visitanteSelect"
+            [virtualScroll]="true"
+            [suggestions]="filteredVisitante"
+            [virtualScrollItemSize]="34"
+            (completeMethod)="filterTimes($event)"
+            field="label"
+            [dropdown]="true"
+            [delay]="500"
+            [disabled]="!campeonatoSelect"
+            [required]="true">
+          </p-autoComplete>
+          <app-message [control]="visitante" error="required" text="Informe um visitante" ></app-message>
+        </div>
+      </div>
+
+      <div class="field col-6" *ngIf="metodoSelect?.exigirPreenchimentoFlagMandanteVisitante">
+        <div class="col-12 p-fluid">
+            <label class="label" for="flMandante">Aposta a favor mandante</label>&nbsp;
+            <p-radioButton
+              name="flAposta"
+              value="apostaAFavorMandante"
+              [(ngModel)]="apostaAFavor"
+              inputId="flMandante"
+              [required]="true"></p-radioButton>
+          </div>
+      </div>
+      <div class="field col-6" *ngIf="metodoSelect?.exigirPreenchimentoFlagMandanteVisitante">
+        <div class="col-12 p-fluid">
+            <label class="label" for="flVisitante">Aposta a favor visitante</label>&nbsp;
+            <p-radioButton
+              name="flAposta"
+              value="apostaAFavorVisitante"
+              [(ngModel)]="apostaAFavor"
+              inputId="flVisitante"
+              [required]="true"></p-radioButton>
+        </div>
+      </div>
+
+      <!-- <div class="field col-12"></div> -->
+
+      <div class="field col-4" *ngIf="metodoSelect?.exigirPreenchimentoFlagGolContraFavor">
+        <div class="col-12 p-fluid">
+          <label for="golFavor" class="label">Gol a favor:</label>&nbsp;
+          <p-checkbox name="golFavor" [(ngModel)]="entrada.golAFavor" [binary]="true" inputId="golFavor"
+          (onChange)="tratarCampoLucroPrejuizoGolFavor()"></p-checkbox>
+        </div>
+      </div>
+      <div class="field col-4" *ngIf="metodoSelect?.exigirPreenchimentoFlagGolContraFavor">
+        <div class="col-12 p-fluid">
+          <label for="golContra" class="label">Gol contra posição:</label>&nbsp;
+          <p-checkbox name="golContra" [(ngModel)]="entrada.golContra" [binary]="true" inputId="golContra"
+          (onChange)="tratarCampoLucroPrejuizoGolContra()"></p-checkbox>
+        </div>
+      </div>
+      <div class="field col-4" *ngIf="metodoSelect?.exigirPreenchimentoFlagRedCard">
+        <div class="col-12 p-fluid">
+          <label for="redCard" class="label">Red card:</label>&nbsp;
+          <p-checkbox name="redCard" [(ngModel)]="entrada.redCard" [binary]="true" inputId="redCard" #redCard="ngModel"></p-checkbox>
+        </div>
+      </div>
+
+      <div class="field col-4" *ngIf="entrada.golAFavor && entrada.golContra">
+        <div class="col-12 p-fluid">
+          <label for="maisGolsFavor" class="label">Mais Gols Favor:</label>&nbsp;
+          <p-checkbox name="maisGolsFavor" [(ngModel)]="entrada.maisGolsFavor" [binary]="true" inputId="maisGolsFavor"
+            [disabled]="entrada.maisGolsContra"></p-checkbox>
+        </div>
+      </div>
+      <div class="field col-4" *ngIf="entrada.golAFavor && entrada.golContra">
+        <div class="col-12 p-fluid">
+          <label for="maisGolsContra" class="label">Mais Gols Contra:</label>&nbsp;
+          <p-checkbox name="maisGolsContra" [(ngModel)]="entrada.maisGolsContra" [binary]="true" inputId="maisGolsContra"
+            [disabled]="entrada.maisGolsFavor"></p-checkbox>
+        </div>
+      </div>
+
+      <div class="field col-12"></div>
+
+      <div class="field col-4">
+        <div class="col-12 p-fluid">
+          <label for="valor" class="label">Stake Default</label>
+          <p-inputNumber
+            id="valor"
+            name="valor"
+            mode="currency"
+            currency="BRL"
+            [(ngModel)]="entrada.valor"
+            #valor="ngModel">
+          </p-inputNumber>
+        </div>
+      </div>
+
+      <div class="field col-4">
+        <div class="col-12 p-fluid">
+          <label for="odd" class="label">Odd</label>
+          <p-inputNumber
+            id="odd"
+            name="odd"
+            [(ngModel)]="entrada.odd"
+            mode="decimal"
+            locale="en-US"
+            [minFractionDigits]="2"
+            [max]="1000"
+            [min]="1.01"
+            #odd="ngModel">
+          </p-inputNumber>
+        </div>
+      </div>
+
+      <div class="field col-4">
+        <div class="col-12 p-fluid">
+          <label for="lucroPrejuizoCorrecao" class="label">Lucro/Prejuízo</label>
+          <p-inputNumber
+            id="lucroPrejuizoCorrecao"
+            name="lucroPrejuizoCorrecao"
+            #lucroPrejuizoCorrecao="ngModel"
+            inputId="currency-br"
+            mode="currency"
+            currency="BRL"
+            locale="pt-BR"
+            [(ngModel)]="entrada.lucroPrejuizo"
+            [required]="true">
+          </p-inputNumber>
+          <app-message [control]="lucroPrejuizoCorrecao" error="required" text="Informe um Lucro/Prejuizo" ></app-message>
+        </div>
+      </div>
+
+      <div class="field col-4">
+        <div class="col-12 p-fluid">
+          <label for="date" class="label">Data</label>
+          <p-calendar
+            name="date"
+            #date="ngModel"
+            dateFormat="dd/mm/yy"
+            [(ngModel)]="dateField"
+            [showIcon]="true"
+            inputId="icon"
+            [maxDate]="dateField"
+            [readonlyInput]="true"
+            [required]="true">
+          </p-calendar>
+          <app-message [control]="date" error="required" text="Informe uma data" ></app-message>
+        </div>
+      </div>
+
+    </div>
+
+    <div *ngIf="entradas.length > 0">
+      <h2 class="subtituloh3">Entradas</h2>
+      <div class="col-12 spaceTop">
+        <p-table
+            [value]="entradas"
+            [responsive]="true"
+            [paginator]="true"
+            [rows]="entradaFiltro.itensPorPagina"
+            #tabela
+            styleClass="p-datatable-gridlines p-datatable-striped">
+
+
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Campeonato</th>
+                    <th>Método</th>
+                    <th>Mandante</th>
+                    <th>Visitante</th>
+                    <th>Valor</th>
+                    <th>Lucro/Prejuízo</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-ent>
+                <tr>
+                    <td>
+                      <span class="p-column-title">Campeonato</span>
+                      {{ent.campeonato.nome}}
+                    </td>
+                    <td>
+                      <span class="p-column-title">Método</span>
+                      {{ent.metodo.nome}}
+                    </td>
+                    <td>
+                      <span class="p-column-title">Mandante</span>
+                      {{ent.timeMandante}}
+                    </td>
+                    <td>
+                      <span class="p-column-title">Visitante</span>
+                      {{ent.timeVisitante}}
+                    </td>
+                    <td>
+                      <span class="p-column-title">Valor</span>
+                      {{ent.valor | currency : "BRL" : "symbol" : "1.2-2" : "pt"}}
+                    </td>
+                    <td [style]="ent.lucroPrejuizo >= 0 ? 'color : green' : 'color : red'">
+                      <span class="p-column-title">Lucro/Prejuízo</span>
+                      {{ent.lucroPrejuizo | currency : "BRL" : "symbol" : "1.2-2" : "pt"}}
+                    </td>
+
+                </tr>
+            </ng-template>
+          </p-table>
+      </div>
+    </div>
+
+    <div class="col-12 spaceTop alignRight">
+      <a class="margin-right" routerLink="/entradas" pButton >Voltar</a>
+      <button type="button" pButton (click)="addEntrada()"
+        [disabled]="form.invalid || (metodoSelect?.exigirPreenchimentoFlagMandanteVisitante && !apostaAFavor)">
+        Adicionar Entrada
+      </button>
+      &nbsp;
+      <button type="submit" pButton
+        [disabled]="(form.invalid && entradas.length == 0) || (metodoSelect?.exigirPreenchimentoFlagMandanteVisitante && !apostaAFavor)">
+        Salvar
+      </button>
+    </div>
+
+
+  </form>
+
+</div>
