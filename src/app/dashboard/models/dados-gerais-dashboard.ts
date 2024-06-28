@@ -4,4 +4,5 @@ export interface EntradaDadosGeraisDTO {
 	lucroPrejuizo ? : number
   valorBanca ? : number
 	percentualBanca ? : number
+  dadosGrafico? : any
 }

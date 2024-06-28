@@ -81,10 +81,27 @@ export class DadosComponent implements OnInit {
     this.showSpinner = true
     this.dashboardService.findDadosGerais(this.rangeDates[0], this.rangeDates[1])
       .subscribe({
-        next: response => this.dadosGerais = response,
+        next: response => this.tratarResponseDadosGerais(response),
         error: e => this.processarError(e),
         complete: () => this.processarComplete()
       })
+  }
+
+  private tratarResponseDadosGerais(response: any): void {
+    this.dadosGerais = response;
+
+    if(this.dadosGerais?.dadosGrafico) {
+      this.dadosGerais!.dadosGrafico = {
+        labels: this.dadosGerais?.dadosGrafico.map((dado : any) => DateUtils.formatDateDiaMes(dado.data)),
+        datasets: [
+          {
+            label : 'Evolução Banca',
+            fill: true,
+            data: this.dadosGerais?.dadosGrafico.map((dado : any) => dado.total)
+          }
+        ]
+      }
+    }
   }
 
   private buscarMetodos(page = 0) {
@@ -114,6 +131,7 @@ export class DadosComponent implements OnInit {
         datasets: [
           {
             label : met.nome,
+            fill: true,
             data: met.dadosGrafico.map((dado : any) => dado.total)
           }
         ]

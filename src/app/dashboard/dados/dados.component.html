@@ -47,7 +47,11 @@
       <p-card header="Banca"> {{ (dadosGerais?.valorBanca ? dadosGerais!.valorBanca : 0)  | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }}  </p-card>
     </div>
 
-    <div class="col-12"></div>
+    <div class="col-12">
+      <p-panel header="Evolução Banca" [toggleable]="true">
+        <p-chart type="line" [data]="dadosGerais?.dadosGrafico"></p-chart>
+      </p-panel>
+    </div>
 
     <div *ngFor="let metodo of metodos" class="col-12">
       <p-panel header="{{ metodo.nome }}" [toggleable]="true">
