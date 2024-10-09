@@ -8,9 +8,10 @@ import { ErrorHandlerService } from 'src/app/core/error-handler.service';
 import { CampeonatosService } from 'src/app/campeonatos/campeonatos.service';
 import { MetodoService } from 'src/app/metodos/metodo.service';
 import { EntradaBaseWriteComponent } from '../entradas-base-write.component';
-import { Entrada } from '../models/entrada';
 import { NgModel } from '@angular/forms';
 import { DateUtils } from 'src/app/utils/date-utils';
+import { Entrada } from '../models/entrada';
+import { Dropdown } from 'src/app/models/dropdown';
 
 @Component({
   selector: 'app-adicionar',
@@ -100,6 +101,12 @@ export class AdicionarComponent extends EntradaBaseWriteComponent implements OnI
     router.navigate(['/entradas'])
   }
 
+  copyDatas(entrada : Entrada ) {
+    this.campeonatoSelect = new Dropdown(entrada.campeonato!.id,  entrada.campeonato!.nome)
+    this.mandanteSelect = new Dropdown(entrada.mandanteIdentificador, entrada.timeMandante)
+    this.visitanteSelect = new Dropdown(entrada.visitanteIdentificador, entrada.timeVisitante)
+  }
+
   cleanFields() {
     this.fieldCampeonato.reset()
     this.fieldMetodo.reset()
@@ -108,6 +115,7 @@ export class AdicionarComponent extends EntradaBaseWriteComponent implements OnI
     this.fieldValor.reset()
     this.fieldOdd.reset()
     this.fieldLucroPrejuizoCorrecao.reset()
+    this.campeonatoSelect = undefined
     this.metodoSelect = undefined
     this.entrada.valor = undefined
     this.entrada.lucroPrejuizo = undefined

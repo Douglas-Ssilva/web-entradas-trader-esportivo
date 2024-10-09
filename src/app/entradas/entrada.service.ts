@@ -26,6 +26,10 @@ export class EntradaService extends BaseService {
       .set('page', filter.pagina)
       .set('size', filter.itensPorPagina);
 
+      if(filter.metodoId) {
+        params = params.set('metodoId', filter.metodoId)
+      }
+
     return this.httpClient.get(this.getUrl(), { params })
     .pipe(
       map(resp => super.extractDataPaginationContent(resp)),

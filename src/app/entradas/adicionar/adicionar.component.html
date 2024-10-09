@@ -3,6 +3,19 @@
 
   <form #form="ngForm" autocomplete="off" (submit)="save()">
 
+    <div class="col-12 spaceTop alignRight">
+      <a class="margin-right" routerLink="/entradas" pButton >Voltar</a>
+      <button type="button" pButton (click)="addEntrada()"
+        [disabled]="form.invalid || (metodoSelect?.exigirPreenchimentoFlagMandanteVisitante && !apostaAFavor)">
+        Adicionar Entrada
+      </button>
+      &nbsp;
+      <button type="submit" pButton
+        [disabled]="(form.invalid && entradas.length == 0) || (metodoSelect?.exigirPreenchimentoFlagMandanteVisitante && !apostaAFavor)">
+        Salvar
+      </button>
+    </div>
+
     <div class="formgrid grid">
       <div class="field col-6">
         <div class="col-12 p-fluid">
@@ -155,7 +168,7 @@
 
       <div class="field col-12"></div>
 
-      <div class="field col-4">
+      <div class="field col-3">
         <div class="col-12 p-fluid">
           <label for="valor" class="label">Stake Default</label>
           <p-inputNumber
@@ -169,7 +182,7 @@
         </div>
       </div>
 
-      <div class="field col-4">
+      <div class="field col-3">
         <div class="col-12 p-fluid">
           <label for="odd" class="label">Odd</label>
           <p-inputNumber
@@ -186,7 +199,7 @@
         </div>
       </div>
 
-      <div class="field col-4">
+      <div class="field col-3">
         <div class="col-12 p-fluid">
           <label for="lucroPrejuizoCorrecao" class="label">Lucro/Prejuízo</label>
           <p-inputNumber
@@ -204,7 +217,7 @@
         </div>
       </div>
 
-      <div class="field col-4">
+      <div class="field col-3">
         <div class="col-12 p-fluid">
           <label for="date" class="label">Data</label>
           <p-calendar
@@ -223,6 +236,8 @@
       </div>
 
     </div>
+
+  </form>
 
     <div *ngIf="entradas.length > 0">
       <h2 class="subtituloh3">Entradas</h2>
@@ -271,6 +286,10 @@
                     <td [style]="ent.lucroPrejuizo >= 0 ? 'color : green' : 'color : red'">
                       <span class="p-column-title">Lucro/Prejuízo</span>
                       {{ent.lucroPrejuizo | currency : "BRL" : "symbol" : "1.2-2" : "pt"}}
+
+                      <button  pButton (click)="copyDatas(ent)" style="margin-left: 3px;"  pTooltip="Copiar Campeonato, Mandante e Visitante" tooltipPosition="top" >
+                        <i class="pi pi-file"></i>
+                      </button>
                     </td>
 
                 </tr>
@@ -279,20 +298,6 @@
       </div>
     </div>
 
-    <div class="col-12 spaceTop alignRight">
-      <a class="margin-right" routerLink="/entradas" pButton >Voltar</a>
-      <button type="button" pButton (click)="addEntrada()"
-        [disabled]="form.invalid || (metodoSelect?.exigirPreenchimentoFlagMandanteVisitante && !apostaAFavor)">
-        Adicionar Entrada
-      </button>
-      &nbsp;
-      <button type="submit" pButton
-        [disabled]="(form.invalid && entradas.length == 0) || (metodoSelect?.exigirPreenchimentoFlagMandanteVisitante && !apostaAFavor)">
-        Salvar
-      </button>
-    </div>
 
-
-  </form>
 
 </div>

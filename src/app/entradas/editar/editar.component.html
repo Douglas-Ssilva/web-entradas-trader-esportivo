@@ -3,6 +3,14 @@
 
   <form #form="ngForm" autocomplete="off" (submit)="edit()">
 
+    <div class="col-12 spaceTop alignRight">
+      <a class="margin-right" routerLink="/entradas" pButton>Voltar</a>
+      <button type="submit" pButton
+        [disabled]="form.invalid || (metodoSelect?.exigirPreenchimentoFlagMandanteVisitante && !apostaAFavor)">
+        Salvar
+      </button>
+    </div>
+
     <div class="formgrid grid">
       <div class="field col-6">
         <div class="col-12 p-fluid">
@@ -154,7 +162,7 @@
 
       <div class="field col-12"></div>
 
-      <div class="field col-4">
+      <div class="field col-3">
         <div class="col-12 p-fluid">
           <label for="valor" class="label">Stake Default</label>
           <p-inputNumber
@@ -168,7 +176,23 @@
         </div>
       </div>
 
-      <div class="field col-4">
+      <div class="field col-3">
+        <div class="col-12 p-fluid">
+          <label for="odd" class="label">Odd</label>
+          <p-inputNumber
+            id="odd"
+            name="odd"
+            [(ngModel)]="entrada.odd"
+            mode="decimal"
+            locale="en-US"
+            [minFractionDigits]="2"
+            [max]="1000"
+            [min]="1.01">
+          </p-inputNumber>
+        </div>
+      </div>
+
+      <div class="field col-3">
         <div class="col-12 p-fluid">
           <label for="lucroPrejuizo" class="label">Lucro/Prejuízo</label>
           <p-inputNumber
@@ -186,23 +210,7 @@
         </div>
       </div>
 
-      <div class="field col-4">
-        <div class="col-12 p-fluid">
-          <label for="odd" class="label">Odd</label>
-          <p-inputNumber
-            id="odd"
-            name="odd"
-            [(ngModel)]="entrada.odd"
-            mode="decimal"
-            locale="en-US"
-            [minFractionDigits]="2"
-            [max]="1000"
-            [min]="1.01">
-          </p-inputNumber>
-        </div>
-      </div>
-
-      <div class="field col-4">
+      <div class="field col-3">
         <div class="col-12 p-fluid">
           <label for="date" class="label">Data</label>
           <p-calendar
@@ -221,15 +229,6 @@
       </div>
 
     </div>
-
-
-    <div class="col-12 spaceTop alignRight">
-      <a class="margin-right" routerLink="/entradas" pButton  icon="pi pi-arrow-left"></a>
-      <button type="submit" pButton icon="pi pi-save"
-        [disabled]="form.invalid || (metodoSelect?.exigirPreenchimentoFlagMandanteVisitante && !apostaAFavor)">
-      </button>
-    </div>
-
 
   </form>
 
