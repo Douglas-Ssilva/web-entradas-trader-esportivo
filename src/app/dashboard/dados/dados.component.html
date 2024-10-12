@@ -8,7 +8,7 @@
 
   <div class="grid">
     <div class="col-12">
-      <div class="col-offset-4 col-3 p-fluid">
+      <div class="col-offset-4 col-4 p-fluid">
         <label for="range" class="label">Intervalo Data</label>
         <p-calendar
           name="intervaloDatas"
@@ -19,6 +19,7 @@
           dateFormat="dd/mm/yy"
           (onSelect)="buscarDados()"
           [maxDate]="currentDate"
+          [showIcon]="true"
         ></p-calendar>
       </div>
     </div>
@@ -57,23 +58,36 @@
       <p-panel header="{{ metodo.nome }}" [toggleable]="true">
 
         <div class="grid">
-        <div class="col-10">
-          <p-chart type="line" [data]="metodo.dataGrafico"></p-chart>
-        </div>
-        <div class="col-2 p-fluid">
-          <p-card header="Entradas"> {{ metodo.totalEntradas }} </p-card>
-          <p-card header="Stake %"> {{ metodo.porcentagemStake }}%  </p-card>
-          <p-card header="Total"> {{ metodo.lucroPrejuizo  | currency : "BRL" : "symbol" : "1.2-2" : "pt" }} </p-card>
-          <p-card header="Correção" *ngIf="metodo.correcao"> {{ metodo.correcao | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }} </p-card>
-        </div>
-        </div>
-
-
-        <div class="grid">
+          <div class="col-12">
+            <p-chart type="line" [data]="metodo.dataGrafico"></p-chart>
+          </div>
+          <div class="col-2 p-fluid">
+            <p-card header="Entradas"> {{ metodo.totalEntradas }} </p-card>
+          </div>
+          <div class="col-2 p-fluid">
+            <p-card header="Stake %"> {{ metodo.porcentagemStake }}%  </p-card>
+          </div>
+          <div class="col-3 p-fluid">
+            <p-card header="Lucro/Prejuízo"> {{ metodo.lucroPrejuizo  | currency : "BRL" : "symbol" : "1.2-2" : "pt" }} </p-card>
+          </div>
+          <div class="col-2 p-fluid">
+            <p-card header="Correção +" *ngIf="metodo.exigirPreenchimentoFlagGolContraFavor">
+              <span style="color: green;">
+                {{ metodo.correcaoPositiva | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }}
+              </span>
+            </p-card>
+          </div>
+          <div class="col-2 p-fluid">
+            <p-card header="Correção -" *ngIf="metodo.exigirPreenchimentoFlagGolContraFavor">
+              <span style="color: red;">
+                {{ metodo.correcaoNegativa | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }}
+              </span>
+            </p-card>
+          </div>
           <div class="col-2 p-fluid" *ngIf="metodo.exigirPreenchimentoFlagGolContraFavor">
             <p-card header="Gols Favor"> {{  metodo.totalGolsFavor | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }} </p-card>
           </div>
-          <div class="col-2 p-fluid" *ngIf="metodo.exigirPreenchimentoFlagGolContraFavor">
+          <div class="col-3 p-fluid" *ngIf="metodo.exigirPreenchimentoFlagGolContraFavor">
             <p-card header="Gols Contra"> {{ metodo.totalGolsContra | currency : "BRL" : "symbol" : "1.2-2" : "pt"  }} </p-card>
           </div>
           <div class="col-3 p-fluid" *ngIf="metodo.exigirPreenchimentoFlagGolContraFavor">

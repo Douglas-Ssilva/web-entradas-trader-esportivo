@@ -8,7 +8,7 @@ export class Entrada {
   valor? : number;
   lucroPrejuizo? : number;
   odd? : number;//retornar odd
-  redCard?: boolean;
+  redCard?: boolean = false;
   golAFavor: boolean = false;
   golContra: boolean = false;
   maisGolsFavor: boolean = false;

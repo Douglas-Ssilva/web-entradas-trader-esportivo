@@ -9,7 +9,8 @@ export class MetodoDashboard extends Metodo {
   golsFavor? : number
   golsContra? : number
   redCard? : number
-  correcao? : number
+  correcaoPositiva? : number
+  correcaoNegativa? : number
   totalGolsFavor? : number
   totalGolsContra? : number
   timesLucrativos ? : TimesLucrativos
