@@ -1,6 +1,6 @@
 
 export interface TimeLucrativoDTO {
   nomeTime: string
-  valor: number
+  total: number
   totalEntradas: number
 }

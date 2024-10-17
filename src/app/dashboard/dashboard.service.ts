@@ -23,26 +23,49 @@ export class DashboardService extends BaseService {
   }
 
   findLucroPrejuizoCampeonatos(dateInicio : Date, dateFim : Date, campeonatoFilter : CampeonatoFiltro): Observable<any> {
-    let dataInicio = this.datePipe.transform(dateInicio, 'yyyy-MM-dd');
-    let dataFim = this.datePipe.transform(dateFim, 'yyyy-MM-dd');
-
-
-    let params = new HttpParams()
-
-    params = params
-    .set('page', campeonatoFilter.pagina)
-    .set('size', campeonatoFilter.itensPorPagina);
-
-    if(dataInicio && dataFim) {
-      params = params
-        .set('dataInicio', dataInicio)
-        .set('dataFim', dataFim);
-    }
+    let params = this.montarParams(dateInicio, dateFim, campeonatoFilter);
 
     return this.httpClient.get(this.getUrl() + '/lucro-prejuizo-campeonatos', { params })
     .pipe(
       map(resp => super.extractData(resp)),
       catchError(super.serviceError));
+  }
+
+  findTimesLucrativosMandantes(dateInicio : Date, dateFim : Date, campeonatoFilter : CampeonatoFiltro): Observable<any> {
+    let params = this.montarParams(dateInicio, dateFim, campeonatoFilter);
+
+    return this.httpClient.get(this.getUrl() + '/times-mais-lucrativos-casa', { params })
+    .pipe(
+      map(resp => super.extractData(resp)),
+      catchError(super.serviceError));
+  }
+
+  findTimesLucrativosVisitantes(dateInicio : Date, dateFim : Date, campeonatoFilter : CampeonatoFiltro): Observable<any> {
+    let params = this.montarParams(dateInicio, dateFim, campeonatoFilter);
+
+    return this.httpClient.get(this.getUrl() + '/times-mais-lucrativos-fora', { params })
+    .pipe(
+      map(resp => super.extractData(resp)),
+      catchError(super.serviceError));
+  }
+
+
+  private montarParams(dateInicio: Date, dateFim: Date, campeonatoFilter: CampeonatoFiltro) {
+    let dataInicio = this.datePipe.transform(dateInicio, 'yyyy-MM-dd');
+    let dataFim = this.datePipe.transform(dateFim, 'yyyy-MM-dd');
+
+    let params = new HttpParams();
+
+    params = params
+      .set('page', campeonatoFilter.pagina)
+      .set('size', campeonatoFilter.itensPorPagina);
+
+    if (dataInicio && dataFim) {
+      params = params
+        .set('dataInicio', dataInicio)
+        .set('dataFim', dataFim);
+    }
+    return params;
   }
 
   findDadosGerais(dateInicio : Date, dateFim : Date): Observable<any> {

@@ -27,8 +27,12 @@ export class DadosComponent implements OnInit {
   data: any
   totalRegistrosMetodos?: number
   totalRegistrosCampeonato: number = 0
+  totalRegistrosMandantes: number = 0
+  totalRegistrosVisitantes: number = 0
   dadosGerais? : EntradaDadosGeraisDTO
   campeonatoslucroPrejuizo : EntradaCampeonatoDTO[] = []
+  mandantes : TimeLucrativoDTO[] = []
+  visitantes : TimeLucrativoDTO[] = []
   filter = new MetodoFiltro()
   campeonatoFilter : CampeonatoFiltro = new CampeonatoFiltro()
 
@@ -52,7 +56,31 @@ export class DadosComponent implements OnInit {
       this.buscarDadosGerais()
       this.buscarMetodos()
       this.buscarLucroPrejuizoCampeonatos()
+      this.buscarLucroPrejuizoMandantes()
+      this.buscarLucroPrejuizoVisitantes()
     }
+  }
+
+  private buscarLucroPrejuizoVisitantes(page = 0) {
+    this.showSpinner = true
+    this.campeonatoFilter.pagina = page
+    this.dashboardService.findTimesLucrativosVisitantes(this.rangeDates[0], this.rangeDates[1], this.campeonatoFilter)
+      .subscribe({
+        next: response => this.tratarResponseVisitante(response),
+        error: e => this.processarError(e),
+        complete: () => this.processarComplete()
+      })
+  }
+
+  private buscarLucroPrejuizoMandantes(page = 0) {
+    this.showSpinner = true
+    this.campeonatoFilter.pagina = page
+    this.dashboardService.findTimesLucrativosMandantes(this.rangeDates[0], this.rangeDates[1], this.campeonatoFilter)
+      .subscribe({
+        next: response => this.tratarResponseMandante(response),
+        error: e => this.processarError(e),
+        complete: () => this.processarComplete()
+      })
   }
 
   private buscarLucroPrejuizoCampeonatos(page = 0) {
@@ -66,16 +94,35 @@ export class DadosComponent implements OnInit {
       })
   }
 
+  private tratarResponseVisitante(response: any): void {
+    this.totalRegistrosVisitantes = response.totalElements
+    this.visitantes = response.content;
+  }
+
+  private tratarResponseMandante(response: any): void {
+    this.totalRegistrosMandantes = response.totalElements
+    this.mandantes = response.content;
+  }
+
   private tratarResponseCampeonato(response: any): void {
     this.totalRegistrosCampeonato = response.totalElements
     this.campeonatoslucroPrejuizo = response.content;
-
   }
 
   changePageCampeonato(event : LazyLoadEvent) {
     const pageCurrent = event!.first! / event!.rows!;
     this.buscarLucroPrejuizoCampeonatos(pageCurrent);
-}
+  }
+
+  changePageMandante(event : LazyLoadEvent) {
+    const pageCurrent = event!.first! / event!.rows!;
+    this.buscarLucroPrejuizoMandantes(pageCurrent);
+  }
+
+  changePageVisitante(event : LazyLoadEvent) {
+    const pageCurrent = event!.first! / event!.rows!;
+    this.buscarLucroPrejuizoVisitantes(pageCurrent);
+  }
 
   private buscarDadosGerais() {
     this.showSpinner = true
